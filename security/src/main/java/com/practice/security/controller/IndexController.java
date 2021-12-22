@@ -3,6 +3,8 @@ package com.practice.security.controller;
 import com.practice.security.model.User;
 import com.practice.security.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +20,7 @@ public class IndexController {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    @GetMapping({"","/"})
+    @GetMapping({"", "/"})
     public String index() {
 
         //mustache 기본폴더 src/main/resource
@@ -62,5 +64,16 @@ public class IndexController {
         return "redirect:/loginForm";
     }
 
+    @Secured("ROLE_ADMIN") // 특정 메소드에 권한 부여하는 역할, 하나만 걸고 싶으면 적당함
+    @GetMapping("/info")
+    public @ResponseBody String info() {
+        return "개인정보";
+    }
+
+    @PreAuthorize("hasRole('ROLE_MANGAER') or hasRole('ROLE_ADMIN')") // data 메소드가 실행되기 직전에 확인, 여러개 줄 때 사용
+    @GetMapping("/data")
+    public @ResponseBody String data() {
+        return "개인정보";
+    }
 
 }
