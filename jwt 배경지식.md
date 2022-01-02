@@ -1,10 +1,33 @@
 # JWT
 
-- JWT = Json Web Token
+ref : https://jwt.io/introduction
 
+- JWT = Json Web Token
 - 중요한 점
   - 왜 사용되는지
+    - Authorization
+    - 정보 교환
   - 어디에 사용되는지
+
+
+
+- 구조
+  - xxxxx-yyyyy-zzzzz
+  - 헤더 + payload + 서명
+    - 헤더 : 어떤 알고리즘을 사용해서 서명을 했는가
+    - payload : 정보들
+    - 서명 : 위의 정보들을 암호화함
+
+​    
+
+- 클라이언트에서 로그인을 시도하는 경우(id = ssar, pw = 1234)
+  - header -> HS256
+  - Payload -> {username : ssar}
+  - signature -> [header + payload + 서버만 알고있는 key값] -> HS256으로 암호화
+  - HS256 = HMAC(시크릿 키) + SHA256(해쉬)
+  - 클라이언트는 JWT를 로컬 스토리지에 저장 후 요청시마다 함께 전달
+
+  
 
 
 
